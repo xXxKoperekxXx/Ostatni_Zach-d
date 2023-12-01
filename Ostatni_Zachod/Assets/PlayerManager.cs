@@ -9,14 +9,13 @@ public class PlayerManager : MonoBehaviour
     public string name; 
     
     public bool isOnline;
-    
-    public bool isLocalPlayer:
+
+    public bool isLocalPlayer;
     
     public Transform cameraToTarget;
     
     public float verticalSpeed = 3.0f;
-    
-    public float rotateSpeed = 150f
+    public float rotateSpeed = 150f;
     
     float v,h;
     
@@ -26,7 +25,7 @@ public class PlayerManager : MonoBehaviour
     	GetComponentInChildren<TextMesh>().text = name;
     }
     
-    void FiedUpdate()
+    void FixedUpdate()
     {
         if(isLocalPlayer)
         {
@@ -38,12 +37,12 @@ public class PlayerManager : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
         
-        var x = h*Time.DeltaTime * verticalSpeed;
-        var y = h*Time.DeltaTime * verticalSpeed;
-        var z = v*Time.DeltaTime * verticalSpeed;
+        var x = h*Time.deltaTime * verticalSpeed;
+        var y = h*Time.deltaTime * verticalSpeed;
+        var z = v*Time.deltaTime * verticalSpeed;
     
         transform.Rotate(0,y,0);
-        transform.TransLate(0,0,z);
+        transform.Translate(0,0,z);
         if(h != 0 || v != 0)
         {
             UpdateStatusToServer();
@@ -61,7 +60,7 @@ public class PlayerManager : MonoBehaviour
     
     public void UpdatePosition(Vector3 position)
     {
-        transform.position = new Vector3(position.x, position.y, position,z);
+        transform.position = new Vector3(position.x, position.y, position.z);
     }
     
     public void UpdateRotation(Quaternion _rotation)

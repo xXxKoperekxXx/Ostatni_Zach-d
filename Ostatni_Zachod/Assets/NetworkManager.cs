@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using System.Text;
+using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
     
-    static private readonly char[] Delimeter = new char[] {:};
+    static private readonly char[] Delimeter = new char[] {':'};
     
     [HideInInspector]
     public bool onLogged = false;
@@ -36,14 +40,14 @@ public class NetworkManager : MonoBehaviour
     
     void Awake()
     {
-        Application.ExternalEval("socket.isReady = true;")
+        Application.ExternalEval("socket.isReady = true;");
     }
     
     void Start()
     {
         if(instance == null)
         {
-            DontDestroyOnLOad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
         
             instance = this;
     
@@ -65,7 +69,7 @@ public class NetworkManager : MonoBehaviour
     public void EmitPing(){
         Dictionary<string,string>data = new Dictionary<string,string>();
         
-        data["msg" = "ping"];
+        data["msg"] = "ping";
     
         JSONObject jo = new JSONObject(data);
     
@@ -100,9 +104,8 @@ public class NetworkManager : MonoBehaviour
         
         PlayerManager newPlayer;
         
-        newPlayer = GameObject.Instantiate(localPlayerPrefab, new Vector3(float.Parse(pack[2]),float.Parse(pack[3]),float.Parse(pack[4]),
-        
-        Quaternion.identity)GetComponent<PlayerManager>();
+        newPlayer = GameObject.Instantiate(localPlayerPrefab, new Vector3(float.Parse(pack[2]),float.Parse(pack[3]),float.Parse(pack[4])),
+        Quaternion.identity).GetComponent<PlayerManager>();
         
         Debug.Log("Playerspawned");
         
@@ -117,7 +120,7 @@ public class NetworkManager : MonoBehaviour
         local_player_id = pack[0];
     
         camRig = GameObject.Instantiate(camRigPref, new Vector3(0f,0f,0f), Quaternion.identity);
-        camRig.GetComponent<CameraFollow>().SetTarget(localPlayer.transform, newPlayer.cameraToTarget);
+        camRig.GetComponent<camera_follow>().SetTarget(localPlayer.transform, newPlayer.cameraToTarget);
         CanvasManager.instance.OpenScreen(1);
         Debug.Log("pl in game");
     
@@ -170,7 +173,7 @@ public class NetworkManager : MonoBehaviour
     void onUpdateMoveAndRotate(string data)
     {
         Debug.Log("received pos and rot");
-        var pack = data.Split(Delimiter);
+        var pack = data.Split(Delimeter);
         
         if(networkPlayers.ContainsKey(pack[0]))
         {
@@ -189,7 +192,7 @@ public class NetworkManager : MonoBehaviour
         var pack = data.Split(Delimeter);
         if(networkPlayers.ContainsKey(pack[0]))
         {
-               Destroy(networkPlayers[pack[0].gameObject]);
+               Destroy(networkPlayers[pack[0]].gameObject);
         }
     }
         
