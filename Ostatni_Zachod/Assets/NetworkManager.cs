@@ -10,7 +10,7 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
     
-    static private readonly char[] Delimeter = new char[] {':'};
+        static private readonly char[] Delimeter = new char[] {':'};
     
     [HideInInspector]
     public bool onLogged = false;
@@ -71,9 +71,9 @@ public class NetworkManager : MonoBehaviour
         
         data["msg"] = "ping";
     
-        JSONObject jo = new JSONObject(data);
+        //JSONObject jo = new JSONObject(data);
     
-        Application.ExternalCall("socket.emit","PING",new JSONObject(data));
+        //Application.ExternalCall("socket.emit","PING",new JSONObject(data));
     }
     
     ///<param name="_login">Login</param>
@@ -82,15 +82,15 @@ public class NetworkManager : MonoBehaviour
         Dictionary<string,string>data = new Dictionary<string,string>();
     
     
-        data["name"] = CanvasManager.instance.inputLogin.text;
+        //data["name"] = CanvasManager.instance.inputLogin.text;
     
-        int index = Random.Range(0, spawnPoints.Length);
+        //int index = Random.Range(0, spawnPoints.Length);
         
-        string msg = string.Empty;
+        //string msg = string.Empty;
     
-        data["position"] = spawnPoints[index].position.x+":"+spawnPoints[index].position.y+":"+spawnPoints[index].position.z;
+        //data["position"] = spawnPoints[index].position.x+":"+spawnPoints[index].position.y+":"+spawnPoints[index].position.z;
     
-        Application.ExternalCall("socket.emit", "LOGIN", new JSONObject(data));
+        //Application.ExternalCall("socket.emit", "LOGIN", new JSONObject(data));
         
     }
     ///<param name="_data">Data.</param>
@@ -121,7 +121,7 @@ public class NetworkManager : MonoBehaviour
     
         camRig = GameObject.Instantiate(camRigPref, new Vector3(0f,0f,0f), Quaternion.identity);
         camRig.GetComponent<camera_follow>().SetTarget(localPlayer.transform, newPlayer.cameraToTarget);
-        CanvasManager.instance.OpenScreen(1);
+        //CanvasManager.instance.OpenScreen(1);
         Debug.Log("pl in game");
     
     
@@ -166,8 +166,8 @@ public class NetworkManager : MonoBehaviour
     
     public void EmitMoveAndRotate(Dictionary<string,string>data)
     {
-        JSONObject jo = new JSONObject(data);
-        Application.ExternalCall("socket.emit", "MOVE_AND_ROTATE",new JSONObject(data));
+        //JSONObject jo = new JSONObject(data);
+        //Application.ExternalCall("socket.emit", "MOVE_AND_ROTATE",new JSONObject(data));
     }
     
     void onUpdateMoveAndRotate(string data)

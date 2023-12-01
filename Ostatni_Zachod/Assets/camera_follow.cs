@@ -20,9 +20,9 @@ public class camera_follow : MonoBehaviour
             
             Quaternion newRotation = Quaternion.LookRotation(cameraToTarget.position - targetPos,Vector3.up);
             
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, damping*Time.DeltaTime);
-    
-            transform.position = Vector3.Lerp(transform.position, targetPos, damping * TIme.DeltaTime)
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, damping*Time.deltaTime);
+
+            transform.position = Vector3.Lerp(transform.position, targetPos, damping * Time.deltaTime);
         }
     }
     public void SetTarget(Transform _target, Transform _cameratotarget)
