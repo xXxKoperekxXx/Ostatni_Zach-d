@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviour
     [HideInInspector]
     public string local_player_id;
     
-    public Dictionary<string, PlayerManager> networkPlayers = new Dictionary<string, PlayerManager>();
+    public Dictionary<string, CarController> networkPlayers = new Dictionary<string, CarController>();
     
     public Transform[] spawnPoints;
     
@@ -66,6 +66,7 @@ public class NetworkManager : MonoBehaviour
     
     }
     public void EmitPing(){
+        Debug.Log("Unity Ping");
         JSONObject jsonObject = new JSONObject();
         jsonObject["msg"] = "ping";
     
@@ -93,17 +94,17 @@ public class NetworkManager : MonoBehaviour
         
         onLogged = true;
         
-        PlayerManager newPlayer;
+        CarController newPlayer;
         
         newPlayer = GameObject.Instantiate(localPlayerPrefab, new Vector3(float.Parse(pack[2]),float.Parse(pack[3]),float.Parse(pack[4])),
-        Quaternion.identity).GetComponent<PlayerManager>();
+        Quaternion.identity).GetComponent<CarController>();
         
         Debug.Log("Playerspawned");
         
         newPlayer.id = pack[0];
         newPlayer.isLocalPlayer = true;
         newPlayer.isOnline = true;
-        newPlayer.Set3DName(pack[1]);
+       // newPlayer.Set3DName(pack[1]);
     
         networkPlayers[pack[0]] = newPlayer;
     
@@ -129,9 +130,9 @@ public class NetworkManager : MonoBehaviour
         if(!alreadyExist)
         {
             Debug.Log("received spawn network player");    
-            PlayerManager newPlayer;
+            CarController newPlayer;
             
-            newPlayer = GameObject.Instantiate(networkPlayerPrefab, new Vector3(float.Parse(pack[2]), float.Parse(pack[3]), float.Parse(pack[4])), Quaternion.identity).GetComponent<PlayerManager>();
+            newPlayer = GameObject.Instantiate(networkPlayerPrefab, new Vector3(float.Parse(pack[2]), float.Parse(pack[3]), float.Parse(pack[4])), Quaternion.identity).GetComponentInChildren<CarController>();
             Debug.Log("player spawned");
             newPlayer.id = pack[0];
             
@@ -139,7 +140,7 @@ public class NetworkManager : MonoBehaviour
             
             newPlayer.isOnline = true;
             
-            newPlayer.Set3DName(pack[1]);
+           // newPlayer.Set3DName(pack[1]);
             
             newPlayer.gameObject.name = pack[0];
             
@@ -164,7 +165,7 @@ public class NetworkManager : MonoBehaviour
         
         if(networkPlayers.ContainsKey(pack[0]))
         {
-            PlayerManager netPlayer = networkPlayers[pack[0]];
+            CarController netPlayer = networkPlayers[pack[0]];
             
             netPlayer.UpdatePosition(new Vector3(float.Parse(pack[1]), float.Parse(pack[2]), float.Parse(pack[3])));
             
