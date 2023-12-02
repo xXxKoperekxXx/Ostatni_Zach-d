@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using SimpleJSON;
 using UnityEngine;
 
 public abstract class CarController : MonoBehaviour
@@ -18,25 +17,10 @@ public abstract class CarController : MonoBehaviour
     [SerializeField] protected float maxTurnAngel = 25f;
     [SerializeField] protected float curTurnAngel = 0f;
     protected bool _isBreaking;
-    public string id;
-    
-    public string Name; 
-    
-    public bool isOnline;
-
-    public bool isLocalPlayer;
 
 
     [SerializeField] protected bool _isFrontDrive = false;
     private void FixedUpdate()
-    {
-        if(isLocalPlayer)
-        {
-            Move();
-        }
-    }
-
-    public void Move()
     {
         curacc = acc * Input.GetAxis("Vertical");
         
@@ -69,7 +53,6 @@ public abstract class CarController : MonoBehaviour
             UpdateWheel(wheel,_wheelMeshes[i]);
             i++;
         }
-        UpdateStatusToServer();
     }
 
     private void Break()
@@ -106,24 +89,5 @@ public abstract class CarController : MonoBehaviour
         trans.position = Pos;
         trans.rotation = Rot;
         Debug.Log("trans " + trans.position + " " + trans.rotation);
-    }
-    
-    void UpdateStatusToServer()
-    {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject["local_player_id"] = id;
-        jsonObject["position"] = transform.position.x+":"+transform.position.y+":"+transform.position.z;
-        jsonObject["rotation"] = transform.rotation.y.ToString();
-        NetworkManager.instance.EmitMoveAndRotate(jsonObject);
-    }
-    
-    public void UpdatePosition(Vector3 position)
-    {
-        transform.position = new Vector3(position.x, position.y, position.z);
-    }
-    
-    public void UpdateRotation(Quaternion _rotation)
-    {
-        transform.rotation = _rotation;    
     }
 }
