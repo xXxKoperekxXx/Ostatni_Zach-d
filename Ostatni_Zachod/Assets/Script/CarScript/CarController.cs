@@ -8,18 +8,18 @@ public abstract class CarController : MonoBehaviour
     [SerializeField]private WheelCollider[] _wheelColliders = new WheelCollider[4];
     [SerializeField]private Transform[] _wheelMeshes = new Transform[4];
 
-    protected float acc = 1500f;
-    protected float breakfocrce = 2000f;
+    [SerializeField]protected float acc = 1500f;
+    [SerializeField] protected float breakfocrce = 2000f;
 
-    protected float curacc = 0f;
-    protected float curbreak = 0f;
-    
-    protected float maxTurnAngel = 25f;
-    protected float curTurnAngel = 0f;
+    [SerializeField] protected float curacc = 0f;
+    [SerializeField] protected float curbreak = 0f;
+
+    [SerializeField] protected float maxTurnAngel = 25f;
+    [SerializeField] protected float curTurnAngel = 0f;
     protected bool _isBreaking;
 
 
-    protected bool _isFrontDrive = false;
+    [SerializeField] protected bool _isFrontDrive = false;
     private void FixedUpdate()
     {
         curacc = acc * Input.GetAxis("Vertical");
@@ -84,8 +84,10 @@ public abstract class CarController : MonoBehaviour
         Vector3 Pos;
         Quaternion Rot;
         col.GetWorldPose(out Pos,out Rot);
+        Debug.Log("Col " +Pos + " " + Rot);
+        
         trans.position = Pos;
         trans.rotation = Rot;
-
+        Debug.Log("trans " + trans.position + " " + trans.rotation);
     }
 }
