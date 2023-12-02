@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using System.Text;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using SimpleJSON;
+using Random = UnityEngine.Random;
 
 public class NetWorkManager : MonoBehaviour
 {
@@ -27,12 +29,12 @@ public class NetWorkManager : MonoBehaviour
     public Transform[] spawnPoints;
     
     [Header("Local Player Prefab")]
-    public GameObject localPlayerPrefab;
+    public List<GameObject> localPlayerPrefab;
     
     [Header("Network Player Prefab")]
-    public GameObject networkPlayerPrefab;
-    
+    public List<GameObject> networkPlayerPrefab;
 
+    private int _isTrabant;
     
     [HideInInspector]
     public bool isGameOver;
@@ -81,8 +83,16 @@ public class NetWorkManager : MonoBehaviour
         jsonObject["name"] = "dupa";
         int index = Random.Range(0, spawnPoints.Length);
         string msg = string.Empty;
+        int randomNumber = Random.Range(1, 101);
+        _isTrabant = 0;
+        if (randomNumber > 50)
+        {
+            _isTrabant = 1;
+        }
+
         jsonObject["position"] = spawnPoints[index].position.x + ":" + spawnPoints[index].position.y + ":" +
                                  spawnPoints[index].position.z;
+        jsonObject["isTrabant"] = _isTrabant;
         Application.ExternalCall("socket.emit","LOGIN", jsonObject);
         
     }
@@ -93,11 +103,12 @@ public class NetWorkManager : MonoBehaviour
         
         var pack = data.Split(Delimeter);
         
+
         onLogged = true;
         
         PlayerManager newPlayer;
         
-        newPlayer = GameObject.Instantiate(localPlayerPrefab, new Vector3(float.Parse(pack[2]),float.Parse(pack[3]),float.Parse(pack[4])),
+        newPlayer = GameObject.Instantiate(localPlayerPrefab[_isTrabant], new Vector3(float.Parse(pack[2]),float.Parse(pack[3]),float.Parse(pack[4])),
         Quaternion.identity).GetComponent<PlayerManager>();
         
         Debug.Log("Playerspawned");
@@ -133,7 +144,10 @@ public class NetWorkManager : MonoBehaviour
             Debug.Log("received spawn network player");    
             PlayerManager newPlayer;
             
-            newPlayer = GameObject.Instantiate(networkPlayerPrefab, new Vector3(float.Parse(pack[2]), float.Parse(pack[3]), float.Parse(pack[4])), Quaternion.identity).GetComponent<PlayerManager>();
+            
+            var car = Int32.Parse(pack[5]);
+
+            newPlayer = GameObject.Instantiate(networkPlayerPrefab[car], new Vector3(float.Parse(pack[2]), float.Parse(pack[3]), float.Parse(pack[4])), Quaternion.identity).GetComponent<PlayerManager>();
             Debug.Log("player spawned");
             newPlayer.id = pack[0];
             

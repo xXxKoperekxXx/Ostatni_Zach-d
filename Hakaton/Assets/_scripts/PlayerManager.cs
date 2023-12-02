@@ -53,13 +53,11 @@ public class PlayerManager : CarController
     
     public void UpdatePosition(Vector3 position)
     {
-        Debug.Log("piwo1");
         transform.position = new Vector3(position.x, position.y, position.z);
     }
     
     public void UpdateRotation(Quaternion _rotation)
     {
-        Debug.Log("piwo2");
         transform.rotation = _rotation;    
     }
 

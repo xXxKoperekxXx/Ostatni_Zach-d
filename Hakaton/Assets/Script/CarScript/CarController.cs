@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class CarController : MonoBehaviour
 {
     [SerializeField]private WheelCollider[] _wheelColliders = new WheelCollider[4];
-    [SerializeField]private Transform[] _wheelMeshes = new Transform[4];
+   
 
     [SerializeField]protected float acc = 1500f;
     [SerializeField] protected float breakfocrce = 2000f;
@@ -48,12 +48,7 @@ public abstract class CarController : MonoBehaviour
         Break();
 
         Turn();
-        int i = 0;
-        foreach (var wheel in _wheelColliders)
-        {
-            UpdateWheel(wheel,_wheelMeshes[i]);
-            i++;
-        }
+
     }
 
     private void Break()
@@ -80,14 +75,5 @@ public abstract class CarController : MonoBehaviour
         _wheelColliders[1].steerAngle = curTurnAngel;
     }
 
-    private void UpdateWheel(WheelCollider col, Transform trans)
-    {
-        Vector3 Pos;
-        Quaternion Rot;
-        col.GetWorldPose(out Pos,out Rot);
  
-        
-        trans.position = Pos;
-        trans.rotation = Rot;
-    }
 }
