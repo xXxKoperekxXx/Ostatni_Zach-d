@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public string id;
     
-    public string name; 
+    public string Name; 
     
     public bool isOnline;
 
