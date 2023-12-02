@@ -1,0 +1,38 @@
+<div class="app">
+    <div class="content">
+
+        <h1>Welcome</h1>
+        <div class="logo">
+            <img src="../../assets/img/polonez.jpg">
+        </div>
+    <form (submit)="onSubmit()">
+        <div class="credentials">
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email" [ngClass]="{bgRedE: isWrongEmail}" [(ngModel)]="email" name="l">
+            
+            <div class="input-group">
+                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" placeholder="Password" aria-label="Password"[ngClass]="{bgRedP: isWrongPassword}" [(ngModel)]="password" name="k" aria-describedby="hideshow">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i
+                        class="fa"
+                        [ngClass]="{
+                          'fa-eye-slash': !fieldTextType,
+                          'fa-eye': fieldTextType
+                        }"
+                        (click)="toggleFieldTextType()"
+                      ></i>
+                    </span>
+                  </div>
+            </div>
+        </div>
+    
+        <button type="submit" class="btn">Log In</button>
+    </form>
+    
+        <div class="footer">
+           <p> Don't have an account? </p> <a [routerLink]="['/register']">Sign Up</a>
+        </div>
+    
+    </div>
+</div>
+

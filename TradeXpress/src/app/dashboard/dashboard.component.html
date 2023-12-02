@@ -1,0 +1,45 @@
+
+      <div *ngIf="authService.userData as user">
+            <div class="media-body">
+              <h1>Witaj: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
+            </div>
+      </div>
+
+
+
+<div class="Blok">
+
+<div class="logout" (click)="authService.SignOut()">
+Log out 
+<img src="../../assets/img/drzwi.png" class="drzwi">
+</div>
+<div id="divSaldo">
+  <p id="saldo">Saldo uzytkownika: {{balance}}</p>
+</div>
+
+  <!-- <div id="mid"> -->
+    <p *ngIf="activeUsers.length<3"> Oczekiwanie na użytkowników</p>
+   
+    
+    <div *ngIf="activeUsers.length===3 && placedAbet===false">
+      <h2>Choose Who Will Win The Race</h2> 
+    
+      <ul>
+        <li *ngFor="let activeUser of activeUsers">
+      <p>{{activeUser.nickname}}</p>
+        </li>
+      </ul>
+      <select (change)="update($event)">
+      <option value="default">----</option>
+      <option *ngFor="let user of activeUsers" [value]="user.nickname">
+        {{ user.nickname }}
+      </option>
+    </select>
+    
+    <p id="sel" *ngIf="selectedUser">You selected {{ selectedUser.nickname }}</p>
+    <button (click)="saveChoice()">Place a bet</button>
+    </div>
+  <!-- </div> -->
+  
+</div>
+<iframe  *ngIf="started" src="http://192.168.133.169:3000" class="game" id="iframediv"></iframe>

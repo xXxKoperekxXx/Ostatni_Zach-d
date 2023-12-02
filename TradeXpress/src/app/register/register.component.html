@@ -1,0 +1,63 @@
+<div class="app">
+    <div class="content">
+
+        <h1>Welcome</h1>
+        <div class="logo">
+            <img src="../../assets/img/car.jpg">
+        </div>
+        <form (submit)="onSubmit()">
+        <div class="credentials">
+          <input type="text" class="form-control" placeholder="nickname" aria-label="Email"  [(ngModel)]="nickname" name="ngModel">
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email" [ngClass]="{bgRedE: isWrongEmail}" [(ngModel)]="email" name="ngModel">
+            <div class="input-group">
+                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" placeholder="Password" aria-label="Password"[ngClass]="{bgRedP: isWrongPassword}" [(ngModel)]="password" name="ngModel" aria-describedby="hideshow">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i
+                        class="fa"
+                        [ngClass]="{
+                          'fa-eye-slash': !fieldTextType,
+                          'fa-eye': fieldTextType
+                        }"
+                        (click)="toggleFieldTextType()"
+                      ></i>
+                    </span>
+
+                  
+                  </div>
+
+
+            </div>
+            <div class="input-group">
+              <input [type]="fieldTextType2 ? 'text' : 'password'" class="form-control" placeholder="Repeat password" aria-label="Password2"[ngClass]="{bgRedP: isWrongPassword}" [(ngModel)]="password2" name="ngModel" aria-describedby="hideshow">
+              <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-eye-slash': !fieldTextType2,
+                        'fa-eye': fieldTextType2
+                      }"
+                      (click)="toggleFieldTextType2()"
+                    ></i>
+                  </span>
+
+                
+                </div>
+
+
+          </div>
+           
+        </div>
+        
+        
+    
+        <button type="submit" class="btn">Register</button>
+    </form>
+    
+        <div class="footer">
+            Don't have an account? <a [routerLink]="['/login']">Log In</a>
+        </div>
+    
+    </div>
+</div>

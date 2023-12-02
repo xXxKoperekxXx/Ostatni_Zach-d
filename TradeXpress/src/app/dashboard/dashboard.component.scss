@@ -1,0 +1,182 @@
+
+:host
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    xbackground:linear-gradient(to right,#45B649, #acb242bc, #45B649);
+}
+
+
+.Blok
+{
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 68px;
+	width: 1600px;
+	
+	padding: 0;
+	margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.karta
+{
+    background-color: #1F1D1D;
+    margin:10px;
+    cursor:pointer;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height:290px;
+	width: 400px;
+    border-radius: 60px;
+}
+
+.karta p
+{
+	padding: 5px;
+	margin-top: 10px;
+    font-family: 'Open Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.powiekszenie
+
+{
+-webkit-transition: all 1s ease; 
+-moz-transition: all 1s ease; 
+-o-transition: all 1s ease;
+}
+
+.powiekszenie:hover 
+{
+-o-transition: all 0.6s;
+-moz-transition: all 0.6s;
+-webkit-transition: all 0.6s;
+-moz-transform: scale(1.1);
+-o-transform: scale(1.1);
+-webkit-transform: scale(1.1);
+}
+.photo
+{
+    max-height:180px;
+	max-width: 150px;
+}
+.logo
+{
+    
+    position: absolute;
+    right: 10px;
+    width: 140px;
+    height: auto;
+    top:10px;
+}
+
+#divSaldo{
+    background-color: #1F1D1D;
+    width: 200px;
+    height:60px;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#saldo{
+
+    color: white;
+   
+
+}
+.logo1
+{
+    
+    position: absolute;
+    left: 280px;
+    width: 60px;
+    height: auto;
+    top:10px;
+    color:red;
+}
+
+.cart{
+    
+    position: absolute;
+    right: 100px;
+    width: 400px;
+    top:10px;
+}
+
+.logout
+{
+    position: absolute;
+    top:10px;
+    left:10px;
+    cursor: pointer;
+    font-size: large;
+    font-weight: bold;
+    color:#d00000;
+}
+.drzwi
+{
+    width: 64px;
+    height: 61px;
+    filter: invert(10%) sepia(100%) saturate(7483%) hue-rotate(22deg) brightness(88%) contrast(123%);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.zs
+{
+    z-index: 999; 
+    opacity: 0; 
+    width: 320px; 
+    height: 200px; 
+    position: absolute; 
+    right: 0px; 
+    left: 0px; 
+    margin-right: auto; 
+    margin-left: auto;
+}
+
+.game
+{
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.media-body{
+    position: absolute;
+    right: 300px;
+    top: 40px;
+}
+#mid{
+    position: absolute;
+    right: 680px;
+    top: 330px;
+    background-color:#1F1D1D;
+    height: 375px;
+    width: 500px;
+    text-align: center;
+    color: white;
+}
+li{
+    list-style-type: none;
+    margin-top: 10px;
+    
+}
+#sel{
+    margin-top: 10px;
+}
