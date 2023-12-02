@@ -20,8 +20,15 @@ public class PlayerManager : CarController
     public float rotateSpeed = 150f;
     
     float v,h;
-    
-    
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Finish")
+        {
+           Application.ExternalCall("onQuitClicked()");
+        }
+    }
+
     public void Set3DName(string name)
     {
     //	GetComponentInChildren<TextMesh>().text = name;
