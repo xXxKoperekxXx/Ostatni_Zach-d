@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Text;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using SimpleJSON;
+
 
 public class NetworkManager : MonoBehaviour
 {
@@ -22,6 +25,8 @@ public class NetworkManager : MonoBehaviour
     public string local_player_id;
     
     public Dictionary<string, PlayerManager> networkPlayers = new Dictionary<string, PlayerManager>();
+
+    public Transform[] spawnPoints;
     
     [Header("Local Player Prefab")]
     public GameObject localPlayerPrefab;
@@ -30,10 +35,10 @@ public class NetworkManager : MonoBehaviour
     public GameObject networkPlayerPrefab;
     
     [Header("Camera Rig Prefab")]
-    public GameObject camRigPref;
+    //public GameObject camRigPref;
     
-    [HideInInspector]
-    public GameObject camRig;
+
+    //public GameObject camRig;
     
     [HideInInspector]
     public bool isGameOver;
@@ -50,8 +55,9 @@ public class NetworkManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         
             instance = this;
-    
-            Debug.Log("start LOL");
+            EmitPing();
+            
+            Debug.Log("start unity");
         }
         else{
             Destroy(this.gameObject);
@@ -67,36 +73,37 @@ public class NetworkManager : MonoBehaviour
     
     }
     public void EmitPing(){
-        Dictionary<string,string>data = new Dictionary<string,string>();
-        
-        data["msg"] = "ping";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject["msg"] = "ping";
     
-        JSONObject jo = new JSONObject(data);
-    
-        Application.ExternalCall("socket.emit","PING",new JSONObject(data));
+        Application.ExternalCall("socket.emit","PING", jsonObject);
     }
-    
+
     ///<param name="_login">Login</param>
     public void EmitJoin()
     {
-        Dictionary<string,string>data = new Dictionary<string,string>();
-    
-    
-        data["name"] = CanvasManager.instance.inputLogin.text;
-    
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject["name"] = "dupa";
+
+
         int index = Random.Range(0, spawnPoints.Length);
-        
+
         string msg = string.Empty;
-    
-        data["position"] = spawnPoints[index].position.x+":"+spawnPoints[index].position.y+":"+spawnPoints[index].position.z;
-    
-        Application.ExternalCall("socket.emit", "LOGIN", new JSONObject(data));
+
+        jsonObject["position"] = spawnPoints[index].position.x + ":" + spawnPoints[index].position.y + ":" +
+                                 spawnPoints[index].position.z;
+
+
+
+        Application.ExternalCall("socket.emit","LOGIN", jsonObject);
+    // OnJoinGame(data["position"]);
         
     }
     ///<param name="_data">Data.</param>
     public void OnJoinGame(string data)
     {
-        Debug.Log("success, joined");
+        
         
         var pack = data.Split(Delimeter);
         
@@ -119,9 +126,9 @@ public class NetworkManager : MonoBehaviour
         localPlayer = networkPlayers[pack[0]].gameObject;
         local_player_id = pack[0];
     
-        camRig = GameObject.Instantiate(camRigPref, new Vector3(0f,0f,0f), Quaternion.identity);
-        camRig.GetComponent<camera_follow>().SetTarget(localPlayer.transform, newPlayer.cameraToTarget);
-        CanvasManager.instance.OpenScreen(1);
+        // camRig = GameObject.Instantiate(camRigPref, new Vector3(0f,0f,0f), Quaternion.identity);
+        // camRig.GetComponent<camera_follow>().SetTarget(localPlayer.transform, newPlayer.cameraToTarget);
+        // CanvasManager.instance.OpenScreen(1);
         Debug.Log("pl in game");
     
     
@@ -131,6 +138,7 @@ public class NetworkManager : MonoBehaviour
     ///<param name="_msg">Message.</param>
     void OnSpawnPlayer(string data)
     {
+        Debug.Log("OnSpawn");
         var pack = data.Split(Delimeter);
         bool alreadyExist = false;
     
@@ -164,13 +172,12 @@ public class NetworkManager : MonoBehaviour
     
     ///<param name="data">position and roattion</param>
     
-    public void EmitMoveAndRotate(Dictionary<string,string>data)
+    public void EmitMoveAndRotate(JSONObject data)
     {
-        JSONObject jo = new JSONObject(data);
-        Application.ExternalCall("socket.emit", "MOVE_AND_ROTATE",new JSONObject(data));
+        Application.ExternalCall("socket.emit", "MOVE_AND_ROTATE",data);
     }
     
-    void onUpdateMoveAndRotate(string data)
+    void OnUpdateMoveAndRotate(string data)
     {
         Debug.Log("received pos and rot");
         var pack = data.Split(Delimeter);

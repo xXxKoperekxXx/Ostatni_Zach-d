@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -22,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     
     public void Set3DName(string name)
     {
-    	GetComponentInChildren<TextMesh>().text = name;
+    //	GetComponentInChildren<TextMesh>().text = name;
     }
     
     void FixedUpdate()
@@ -43,19 +44,18 @@ public class PlayerManager : MonoBehaviour
     
         transform.Rotate(0,y,0);
         transform.Translate(0,0,z);
-        if(h != 0 || v != 0)
-        {
-            UpdateStatusToServer();
-        }
+
+        UpdateStatusToServer();
+        
     }
     
     void UpdateStatusToServer()
     {
-        Dictionary<string,string> data = new Dictionary<string,string>();
-        data["local_player_id"] = id;
-        data["position"] = transform.position.x+":"+transform.position.y+":"+transform.position.z;
-        data["rotation"] = transform.rotation.y.ToString();
-        NetworkManager.instance.EmitMoveAndRotate(data);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject["local_player_id"] = id;
+        jsonObject["position"] = transform.position.x+":"+transform.position.y+":"+transform.position.z;
+        jsonObject["rotation"] = transform.rotation.y.ToString();
+        NetworkManager.instance.EmitMoveAndRotate(jsonObject);
     }
     
     public void UpdatePosition(Vector3 position)
